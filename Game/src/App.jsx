@@ -5,7 +5,7 @@ function App() {
     <div className="game">
       <header className="header-section">
         <h1>Memory Blast</h1>
-        <p>Find all the matching pairs before the time runs out</p>
+        <p>- Find all the matching pairs before the time runs out -</p>
       </header>
       <div className="help">
         <button className="help-btn">How to play</button>

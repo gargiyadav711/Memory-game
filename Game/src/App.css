@@ -1,0 +1,114 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+
+body {
+    position: relative;
+    min-height: 100vh;
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: url('/background.png') center / cover no-repeat fixed;
+    isolation: isolate;
+}
+
+body::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.8);
+    z-index: -1;
+}
+
+.game {
+    text-align: center;
+}
+
+.header-section h1 {
+    font-family: 'Tangerine', serif;
+    background: linear-gradient(to bottom, white, rgb(204, 177, 21));
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-weight: bolder;
+    font-size: 80px;
+    margin-bottom: 10px;
+}
+
+.header-section p {
+    font-size: 15px;
+    margin-bottom: 25px;
+    color: #d8d8e8;
+}
+
+.help {
+    margin-bottom: 25px;
+}
+
+.help-btn,
+.restart-btn button {
+    padding: 12px 24px;
+    border: none;
+    border-radius: 8px;
+    background: #d4af37;
+    color: #10182f;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.help-btn:hover,
+.restart-btn button:hover {
+    background: #f0d477;
+}
+
+.game-info {
+    display: flex;
+    justify-content: center;
+    gap: 120px;
+    margin: 30px 0;
+    background-color: black;
+    border-color: goldenrod;
+    width: 200px;
+}
+
+.game-info div {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding: 18px;
+}
+
+.game-info span {
+    font-size: 15px;
+    color: #d8d8e8;
+}
+
+.game-info strong {
+    font-size: 25px;
+    color: #d4af37;
+}
+
+.card-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 18px;
+    margin: 35px 0;
+}
+
+.card {
+    min-height: 130px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #d4af37;
+    color: #10182f;
+    border-radius: 12px;
+    font-size: 40px;
+}
+
+.restart-btn {
+    margin-top: 25px;
+}
