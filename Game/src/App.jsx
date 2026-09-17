@@ -1,7 +1,62 @@
 import { useState } from "react";
+import Card from "./components/Card";
 import "./App.css";
 function App() {
   const [showHelp, setShowHelp] = useState(false);
+  const [cards, setCards] = useState([
+    {
+      id: 1,
+      value: "fa-crow",
+    },
+    {
+      id: 2,
+      value: "fa-crow",
+    },
+
+    {
+      id: 3,
+      value: "fa-wand-sparkles",
+    },
+    {
+      id: 4,
+      value: "fa-wand-sparkles",
+    },
+    {
+      id: 5,
+      value: "fa-hat-wizard",
+    },
+    {
+      id: 6,
+      value: "fa-hat-wizard",
+    },
+    {
+      id: 7,
+      value: "fa-star",
+    },
+    {
+      id: 8,
+      value: "fa-star",
+    },
+
+    {
+      id: 9,
+      value: "fa-book-open",
+    },
+    {
+      id: 10,
+      value: "fa-book-open",
+    },
+    {
+      id: 11,
+      value: "fa-bomb",
+      type: "bomb",
+    },
+    {
+      id: 12,
+      value: "fa-hourglass-half",
+      type: "time",
+    }
+  ]);
   return (
     <div className="game">
       <header className="header-section">
@@ -32,7 +87,13 @@ function App() {
       </section>
 
       <section className="card-grid">
-
+        {
+          cards.map((card) => (
+            <Card
+              key={card.id}
+              card={card} />
+          ))
+        }
       </section>
 
       <section className="restart-btn">
