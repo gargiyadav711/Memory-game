@@ -1,5 +1,5 @@
 
-function Card({card}) {
+function Card({ card, onClick}) {
   return (
     <button className={`memory-card ${card.isFlipped || card.isMatched ? "flipped" :""}`}
     onClick={()=>onClick(card.id)}

@@ -1,90 +1,103 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Card from "./components/Card";
 import "./App.css";
 function App() {
-  const cardClick=(id)=>{
-    setCards((prevCards)=>prevCards.map(
-      (card)=> card.id===id ? {...card,isFlipped:true}:card
+  const cardClick = (id) => {
+    setCards((prevCards) => prevCards.map(
+      (card) => card.id === id ? { ...card, isFlipped: true } : card
     ));
   };
+  const [time, setTime] = useState(50);
+  const [moves, setMoves] = useState(0);
+  const [pairsFound, setPairsFound] = useState(0);
   const [showHelp, setShowHelp] = useState(false);
   const [cards, setCards] = useState([
     {
       id: 1,
       value: "fa-crow",
-      isFlipped:false,
+      isFlipped: false,
       isMatched: false,
     },
     {
       id: 2,
       value: "fa-crow",
-      isFlipped:false,
+      isFlipped: false,
       isMatched: false,
     },
     {
       id: 3,
       value: "fa-wand-sparkles",
-      isFlipped:false,
+      isFlipped: false,
       isMatched: false,
     },
     {
       id: 4,
       value: "fa-wand-sparkles",
-      isFlipped:false,
+      isFlipped: false,
       isMatched: false,
     },
     {
       id: 5,
       value: "fa-hat-wizard",
-      isFlipped:false,
+      isFlipped: false,
       isMatched: false,
     },
     {
       id: 6,
       value: "fa-hat-wizard",
-      isFlipped:false,
+      isFlipped: false,
       isMatched: false,
     },
     {
       id: 7,
       value: "fa-star",
-      isFlipped:false,
+      isFlipped: false,
       isMatched: false,
     },
     {
       id: 8,
       value: "fa-star",
-      isFlipped:false,
+      isFlipped: false,
       isMatched: false,
     },
 
     {
       id: 9,
       value: "fa-book-open",
-      isFlipped:false,
+      isFlipped: false,
       isMatched: false,
     },
     {
       id: 10,
       value: "fa-book-open",
-      isFlipped:false,
+      isFlipped: false,
       isMatched: false,
     },
     {
       id: 11,
       value: "fa-bomb",
       type: "bomb",
-      isFlipped:false,
+      isFlipped: false,
       isMatched: false,
     },
     {
       id: 12,
       value: "fa-hourglass-half",
       type: "time",
-      isFlipped:false,
+      isFlipped: false,
       isMatched: false,
     }
   ]);
+  useEffect(() => {
+    if (time <= 0) {
+      return;
+    }
+    const timer = setInterval(() => {
+      setTime((prevTime) => prevTime - 1);
+    }, 1000);
+
+    return () => clearInterval(timer);
+  }, [time]);
   return (
     <div className="game">
       <header className="header-section">
@@ -100,17 +113,17 @@ function App() {
       <section className="game-info">
         <div>
           <span>Time</span>
-          <strong>50s</strong>
+          <strong>{time}s</strong>
         </div>
 
         <div>
           <span>Moves</span>
-          <strong>0</strong>
+          <strong>{moves}</strong>
         </div>
 
         <div>
           <span>Pairs Found</span>
-          <strong>0/5</strong>
+          <strong>{pairsFound}/5</strong>
         </div>
       </section>
 
@@ -119,7 +132,8 @@ function App() {
           cards.map((card) => (
             <Card
               key={card.id}
-              card={card} />
+              card={card}
+              onClick={cardClick} />
           ))
         }
       </section>
