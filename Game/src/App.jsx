@@ -5,6 +5,22 @@ function App() {
   const cardClick = (id) => {
     const clickedCard = cards.find((card) => card.id === id);
 
+    if (clickedCard.type === "bomb") {
+      setTime((prevTime) => prevTime - 10);
+      setCards((prevCards) => prevCards.map(
+        (card) => card.id === id ? { ...card, isFlipped: true } : card
+      ));
+      return;
+    }
+
+    if (clickedCard.type === "time") {
+      setTime((prevTime) => prevTime + 10);
+      setCards((prevCards) => prevCards.map(
+        (card) => card.id === id ? { ...card, isFlipped: true } : card
+      ));
+      return;
+    }
+
     if (!firstCard) {
       setFirstCard(clickedCard);
       setCards((prevCards) => prevCards.map(
@@ -28,6 +44,8 @@ function App() {
   const [showHelp, setShowHelp] = useState(false);
   const [firstCard, setFirstCard] = useState(null);
   const [secondCard, setSecondCard] = useState(null);
+  const [gameOver, setGameOver] = useState(false);
+  const [gameWon, setGameWon] = useState(false);
 
   const [cards, setCards] = useState([
     {
@@ -144,6 +162,19 @@ function App() {
     }
   }, [firstCard, secondCard]);
 
+  useEffect(() => {
+    if (pairsFound === 5) {
+      setGameWon(true);
+      setGameOver(true);
+    }
+  }, [pairsFound]);
+
+  useEffect(() => {
+    if (time === 0) {
+      setGameOver(true);
+    }
+  }, [time]);
+
   return (
     <div className="game">
       <header className="header-section">
@@ -222,6 +253,19 @@ function App() {
           </div>
         </div>
       ) : null}
+
+      {gameOver ? (
+        <div className="popup-overlay">
+          <div className="popup-help">
+            <h3>{gameWon ? "You won !" : "Time's Up !"}</h3>
+            <p>{gameWon ? "You found all the matching pairs !" : "Better luck next Time !"}</p>
+            <button className="got-it-button" onClick={() => window.location.reload()}>
+              Play Again!
+            </button>
+          </div>
+        </div>
+      ) : null}
+
     </div>
   );
 }

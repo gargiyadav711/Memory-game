@@ -199,10 +199,6 @@ body::before {
   box-shadow: 0 0 18px rgba(212, 175, 55, 0.6);
 }
 
-.memory-card:focus {
-  outline: none;
-}
-
 .memory-card.flipped .card-inner {
   transform: rotateY(180deg);
 }
