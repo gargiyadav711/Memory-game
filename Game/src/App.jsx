@@ -3,14 +3,32 @@ import Card from "./components/Card";
 import "./App.css";
 function App() {
   const cardClick = (id) => {
-    setCards((prevCards) => prevCards.map(
-      (card) => card.id === id ? { ...card, isFlipped: true } : card
-    ));
+    const clickedCard = cards.find((card) => card.id === id);
+
+    if (!firstCard) {
+      setFirstCard(clickedCard);
+      setCards((prevCards) => prevCards.map(
+        (card) => card.id === id ? { ...card, isFlipped: true } : card
+      ));
+      return;
+    }
+    if (!secondCard && id !== firstCard.id) {
+      setSecondCard(clickedCard);
+      setCards((prevCards) => prevCards.map(
+        (card) => card.id === id ? { ...card, isFlipped: true } : card
+      ));
+
+      setMoves((prevMoves) => prevMoves + 1);
+    }
   };
+
   const [time, setTime] = useState(50);
   const [moves, setMoves] = useState(0);
   const [pairsFound, setPairsFound] = useState(0);
   const [showHelp, setShowHelp] = useState(false);
+  const [firstCard, setFirstCard] = useState(null);
+  const [secondCard, setSecondCard] = useState(null);
+
   const [cards, setCards] = useState([
     {
       id: 1,
@@ -88,6 +106,7 @@ function App() {
       isMatched: false,
     }
   ]);
+
   useEffect(() => {
     if (time <= 0) {
       return;
@@ -98,6 +117,33 @@ function App() {
 
     return () => clearInterval(timer);
   }, [time]);
+
+  useEffect(() => {
+    if (!firstCard || !secondCard) {
+      return;
+    }
+    if (firstCard.value === secondCard.value) {
+      setCards((prevCards) => prevCards.map((card) =>
+        card.id === firstCard.id || card.id === secondCard.id ? { ...card, isMatched: true } : card
+      )
+      );
+      setPairsFound((prevPairs) => prevPairs + 1);
+
+      setFirstCard(null);
+      setSecondCard(null);
+    }
+    else {
+      setTimeout(() => {
+        setCards((prevCards) => prevCards.map((card) =>
+          card.id === firstCard.id || card.id === secondCard.id ? { ...card, isFlipped: false } : card
+        )
+        );
+        setFirstCard(null);
+        setSecondCard(null);
+      }, 1000);
+    }
+  }, [firstCard, secondCard]);
+
   return (
     <div className="game">
       <header className="header-section">
