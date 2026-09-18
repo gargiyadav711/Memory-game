@@ -38,6 +38,18 @@ function App() {
     }
   };
 
+  function shuffleCards(cards) {
+    const shuffled = [...cards];
+    for (let i = shuffled.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      let temp = shuffled[i];
+      shuffled[i] = shuffled[j];
+      shuffled[j] = temp;
+    }
+    return shuffled;
+  };
+
+
   const [time, setTime] = useState(50);
   const [moves, setMoves] = useState(0);
   const [pairsFound, setPairsFound] = useState(0);
@@ -124,6 +136,10 @@ function App() {
       isMatched: false,
     }
   ]);
+
+  useEffect(() => {
+    setCards((prevCards) => shuffleCards(prevCards));
+  }, []);
 
   useEffect(() => {
     if (time <= 0) {
@@ -216,7 +232,7 @@ function App() {
       </section>
 
       <section className="restart-btn">
-        <button className="restart-game">
+        <button className="restart-game" onClick={() => window.location.reload()}>
           <i className="fa-solid fa-rotate-right"></i>
           Restart Game
         </button>
