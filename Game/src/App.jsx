@@ -49,7 +49,6 @@ function App() {
     return shuffled;
   };
 
-
   const [time, setTime] = useState(50);
   const [moves, setMoves] = useState(0);
   const [pairsFound, setPairsFound] = useState(0);

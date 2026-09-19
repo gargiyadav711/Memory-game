@@ -324,3 +324,94 @@ body::before {
   background: white;
   transform: translateY(-2px);
 }
+
+@media (max-width: 600px) {
+  .game {
+    padding: 10px;
+  }
+  .header-section {
+    margin-bottom: 5px;
+  }
+  .header-section h1 {
+    font-size: clamp(42px, 14vw, 58px);
+  }
+  .header-section p {
+    font-size: 12px;
+  }
+  .help-btn {
+    padding: 7px 12px;
+    font-size: 12px;
+  }
+  .game-info {
+    width: 95%;
+    min-height: 58px;
+    padding: 7px 8px;
+    gap: 5px;
+    margin: 6px auto;
+  }
+  .game-info span {
+    font-size: 10px;
+  }
+  .game-info strong {
+    font-size: 20px;
+  }
+  .card-grid {
+    width: 95%;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    margin: 12px auto 8px;
+  }
+  .memory-card {
+    width: 100%;
+    max-width: 100px;
+    height: 105px;
+  }
+  .card-inner {
+    width: 90%;
+    height: 90%;
+  }
+  .card-front,
+  .card-back {
+    border-width: 1.5px;
+    border-radius: 9px;
+  }
+  .card-front,
+  .card-back {
+    font-size: 30px;
+  }
+
+  .restart-btn {
+    margin-top: 5px;
+  }
+
+  .restart-btn button {
+    padding: 7px 18px;
+    font-size: 13px;
+  }
+
+  .popup-overlay {
+    padding: 15px;
+  }
+
+  .popup-help {
+    width: 95%;
+    padding: 28px 20px;
+    border-radius: 16px;
+  }
+
+  .popup-help h3 {
+    font-size: 25px;
+    margin-bottom: 20px;
+  }
+
+  .popup-help p {
+    font-size: 13px;
+    gap: 10px;
+    margin: 12px 0;
+  }
+
+  .got-it-button {
+    margin-top: 20px;
+    padding: 9px 22px;
+  }
+}
