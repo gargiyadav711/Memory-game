@@ -5,6 +5,9 @@ import confetti from "canvas-confetti";
 import GameInfo from "./components/GameInfo";
 import MatchMessage from "./components/MatchMessage";
 import { HelpPopup, GameOverPopup } from "./components/Popups";
+import cardData from "./data/cards";
+import useGameTimer from "./useGameTimer";
+import shuffleCards from "./shuffleCards";
 import "./App.css";
 function App() {
   const cardClick = (id) => {
@@ -42,18 +45,6 @@ function App() {
       setMoves((prevMoves) => prevMoves + 1);
     }
   };
-
-  function shuffleCards(cards) {
-    const shuffled = [...cards];
-    for (let i = shuffled.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
-      let temp = shuffled[i];
-      shuffled[i] = shuffled[j];
-      shuffled[j] = temp;
-    }
-    return shuffled;
-  };
-
   const [time, setTime] = useState(50);
   const [moves, setMoves] = useState(0);
   const [pairsFound, setPairsFound] = useState(0);
@@ -64,98 +55,13 @@ function App() {
   const [gameWon, setGameWon] = useState(false);
   const [showMatchMessage, setShowMatchMessage] = useState(false);
 
-  const [cards, setCards] = useState([
-    {
-      id: 1,
-      value: "fa-crow",
-      isFlipped: false,
-      isMatched: false,
-    },
-    {
-      id: 2,
-      value: "fa-crow",
-      isFlipped: false,
-      isMatched: false,
-    },
-    {
-      id: 3,
-      value: "fa-wand-sparkles",
-      isFlipped: false,
-      isMatched: false,
-    },
-    {
-      id: 4,
-      value: "fa-wand-sparkles",
-      isFlipped: false,
-      isMatched: false,
-    },
-    {
-      id: 5,
-      value: "fa-hat-wizard",
-      isFlipped: false,
-      isMatched: false,
-    },
-    {
-      id: 6,
-      value: "fa-hat-wizard",
-      isFlipped: false,
-      isMatched: false,
-    },
-    {
-      id: 7,
-      value: "fa-star",
-      isFlipped: false,
-      isMatched: false,
-    },
-    {
-      id: 8,
-      value: "fa-star",
-      isFlipped: false,
-      isMatched: false,
-    },
-
-    {
-      id: 9,
-      value: "fa-book-open",
-      isFlipped: false,
-      isMatched: false,
-    },
-    {
-      id: 10,
-      value: "fa-book-open",
-      isFlipped: false,
-      isMatched: false,
-    },
-    {
-      id: 11,
-      value: "fa-bomb",
-      type: "bomb",
-      isFlipped: false,
-      isMatched: false,
-    },
-    {
-      id: 12,
-      value: "fa-hourglass-half",
-      type: "time",
-      isFlipped: false,
-      isMatched: false,
-    }
-  ]);
+  const [cards, setCards] = useState(cardData);
 
   useEffect(() => {
     setCards((prevCards) => shuffleCards(prevCards));
   }, []);
 
-  useEffect(() => {
-    if (time <= 0) {
-      return;
-    }
-    const timer = setInterval(() => {
-      setTime((prevTime) => prevTime - 1);
-    }, 1000);
-
-    return () => clearInterval(timer);
-  }, [time]);
+  useGameTimer(time, setTime, gameOver);
 
   useEffect(() => {
     if (!firstCard || !secondCard) {
@@ -249,7 +155,7 @@ function App() {
           ))
         }
       </section>
-      {showMatchMessage ? ( <MatchMessage />) : null}
+      {showMatchMessage ? (<MatchMessage />) : null}
       <section className="restart-btn">
         <button className="restart-game" onClick={() => window.location.reload()}>
           <i className="fa-solid fa-rotate-right"></i>
