@@ -1,5 +1,10 @@
 import { useState, useEffect } from "react";
 import Card from "./components/Card";
+import Header from "./components/Header";
+import confetti from "canvas-confetti";
+import GameInfo from "./components/GameInfo";
+import MatchMessage from "./components/MatchMessage";
+import { HelpPopup, GameOverPopup } from "./components/Popups";
 import "./App.css";
 function App() {
   const cardClick = (id) => {
@@ -57,6 +62,7 @@ function App() {
   const [secondCard, setSecondCard] = useState(null);
   const [gameOver, setGameOver] = useState(false);
   const [gameWon, setGameWon] = useState(false);
+  const [showMatchMessage, setShowMatchMessage] = useState(false);
 
   const [cards, setCards] = useState([
     {
@@ -162,6 +168,12 @@ function App() {
       );
       setPairsFound((prevPairs) => prevPairs + 1);
 
+      setShowMatchMessage(true);
+      setTimeout(() => {
+        setShowMatchMessage(false);
+      }, 1000);
+
+
       setFirstCard(null);
       setSecondCard(null);
     }
@@ -178,10 +190,36 @@ function App() {
   }, [firstCard, secondCard]);
 
   useEffect(() => {
-    if (pairsFound === 5) {
-      setGameWon(true);
-      setGameOver(true);
-    }
+    if (pairsFound !== 5) return;
+
+    setGameWon(true);
+    setGameOver(true);
+
+    const duration = 10000;
+    const end = Date.now() + duration;
+
+    const celebration = () => {
+      confetti({particleCount: 6, angle: 60,spread: 55,startVelocity: 45,
+        origin:
+        {
+          x: 0,
+          y: 0.7
+        }
+      });
+
+      confetti({ particleCount: 6, angle: 120, spread: 55, startVelocity: 45,
+        origin:
+        {
+          x: 1,
+          y: 0.7 
+        }
+      });
+      if (Date.now() < end) {
+        requestAnimationFrame(celebration);
+      }
+    };
+
+    celebration();
   }, [pairsFound]);
 
   useEffect(() => {
@@ -192,32 +230,12 @@ function App() {
 
   return (
     <div className="game">
-      <header className="header-section">
-        <div>
-          <h1>Memory Blast</h1>
-          <p>Test your memory and beat the clock!</p>
-        </div>
-        <button className="help-btn" onClick={() => setShowHelp(true)}>
-          How to Play
-        </button>
-      </header>
-
-      <section className="game-info">
-        <div>
-          <span>Time</span>
-          <strong>{time}s</strong>
-        </div>
-
-        <div>
-          <span>Moves</span>
-          <strong>{moves}</strong>
-        </div>
-
-        <div>
-          <span>Pairs Found</span>
-          <strong>{pairsFound}/5</strong>
-        </div>
-      </section>
+      <Header onHelpClick={() => setShowHelp(true)} />
+      <GameInfo
+        time={time}
+        moves={moves}
+        pairsFound={pairsFound}
+      />
 
       <section className="card-grid">
         {
@@ -238,47 +256,16 @@ function App() {
       </section>
 
       {showHelp ? (
-        <div className="popup-overlay">
-          <div className="popup-help">
-            <button className="close-btn" onClick={() => setShowHelp(false)}>&times;</button>
-            <h3>How to Play</h3>
-            <p>
-              <i className="fa-solid fa-layer-group"></i>
-              Click on the cards to flip them.
-            </p>
-            <p>
-              <i className="fa-solid fa-star"></i>
-              Find all 5 matching pairs.
-            </p>
-            <p>
-              <i className="fa-solid fa-bomb"></i>
-              The bomb card removes 10 seconds.
-            </p>
-            <p>
-              <i className="fa-solid fa-hourglass-half"></i>
-              The time card adds 10 seconds.
-            </p>
-            <p>
-              <i className="fa-solid fa-clock"></i>
-              The game starts with 50 seconds.
-            </p>
-            <button className="got-it-button" onClick={() => setShowHelp(false)}>
-              Got it!
-            </button>
-          </div>
-        </div>
+        <HelpPopup
+          onClose={() => setShowHelp(false)}
+        />
       ) : null}
 
       {gameOver ? (
-        <div className="popup-overlay">
-          <div className="popup-help">
-            <h3>{gameWon ? "You won !" : "Time's Up !"}</h3>
-            <p>{gameWon ? "You found all the matching pairs !" : "Better luck next Time !"}</p>
-            <button className="got-it-button" onClick={() => window.location.reload()}>
-              Play Again!
-            </button>
-          </div>
-        </div>
+        <GameOverPopup
+          gameWon={gameWon}
+          onPlayAgain={() => window.location.reload()}
+        />
       ) : null}
 
     </div>
