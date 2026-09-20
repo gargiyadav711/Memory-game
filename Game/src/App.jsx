@@ -199,7 +199,8 @@ function App() {
     const end = Date.now() + duration;
 
     const celebration = () => {
-      confetti({particleCount: 6, angle: 60,spread: 55,startVelocity: 45,
+      confetti({
+        particleCount: 6, angle: 60, spread: 55, startVelocity: 45,
         origin:
         {
           x: 0,
@@ -207,11 +208,12 @@ function App() {
         }
       });
 
-      confetti({ particleCount: 6, angle: 120, spread: 55, startVelocity: 45,
+      confetti({
+        particleCount: 6, angle: 120, spread: 55, startVelocity: 45,
         origin:
         {
           x: 1,
-          y: 0.7 
+          y: 0.7
         }
       });
       if (Date.now() < end) {
@@ -247,7 +249,7 @@ function App() {
           ))
         }
       </section>
-
+      {showMatchMessage ? ( <MatchMessage />) : null}
       <section className="restart-btn">
         <button className="restart-game" onClick={() => window.location.reload()}>
           <i className="fa-solid fa-rotate-right"></i>
@@ -256,16 +258,11 @@ function App() {
       </section>
 
       {showHelp ? (
-        <HelpPopup
-          onClose={() => setShowHelp(false)}
-        />
+        <HelpPopup onClose={() => setShowHelp(false)} />
       ) : null}
 
       {gameOver ? (
-        <GameOverPopup
-          gameWon={gameWon}
-          onPlayAgain={() => window.location.reload()}
-        />
+        <GameOverPopup gameWon={gameWon} onPlayAgain={() => window.location.reload()} />
       ) : null}
 
     </div>

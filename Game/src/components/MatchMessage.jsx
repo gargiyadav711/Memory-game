@@ -1,7 +1,8 @@
-function MatchMessage({ show }) {
+function MatchMessage() {
   return (
-    <div className={`match-message ${show ? "show" : ""}`}>
-      Pair Matched!
+    <div className="match-message show">
+      <i className="fa-solid fa-star"></i>
+      Match Found!
     </div>
   );
 }
